@@ -1,18 +1,15 @@
 require 'socket'
 
-if ARGV.empty?
-    puts "Usage - ruby boat.rb host port"
-    exit
-end
+abort "Usage - ruby boat.rb host port" if ARGV.empty?
 
-board = "AAAAABBBB." + ("." * 10 * 8) + "CCCDDDEE.."
 client = TCPSocket.new ARGV[0], ARGV[1]
-puts client.gets
-client.puts "J|BoatyMcBoatFace|#{board}"
-puts client.gets
+board = "AAAAABBBB." + ("." * 10 * 8) + "CCCDDDEE.."
+shots = Array.new(100) { |x| (x % 10 + 1).to_s + "|" + (x / 10 + 1).to_s }
+shots.shuffle!
 
-board_received = ""
-while command = client.gets
-    puts command
-    if command.start_with? "B|" then board_received = command end
+while message = client.gets
+    puts message
+    if message[0] == "G" then client.puts "J|McBoatFace|#{board}" end
+    if message[0] == "H" then client.puts "M|rando|ouch!" end
+    if message.start_with? "N|McBoatFace" then client.puts "S|rando|" + shots.pop end
 end
