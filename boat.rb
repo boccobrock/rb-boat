@@ -12,7 +12,7 @@ while message = client.gets
     if message[0] == "J" && message != "J|McBoatFace" then enemy = message.strip.sub /J\|/, ''  end
     if message.start_with? "N|McBoatFace" then client.puts "S|#{enemy}|#{shots.first[:x]}|#{shots.shift[:y]}" end
     if message.start_with? "H|McBoatFace" then
-        x = (message.split('|')[3][1..5].ord - 96).to_i
+        x = (message.split('|')[3][0].ord - 96).to_i
         y = (message.split('|')[3][1..2]).to_i
         shots.sort_by! { |a| (x - a[:x]).abs + (y - a[:y]).abs }
     end
