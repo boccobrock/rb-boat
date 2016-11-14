@@ -11,10 +11,7 @@ while message = client.gets
     if message.start_with? "H|McBoatFace" then
         x = (message.split('|')[3][0].ord - 96).to_i
         y = (message.split('|')[3][1..2]).to_i
-        shots.sort_by! do |a|
-            dist = (x - a[:x]).abs + (y - a[:y]).abs 
-            if dist < 2 then dist else 10 end
-        end
+        shots.sort_by! { |a| (x - a[:x]).abs + (y - a[:y]).abs < 2 ? 1 : 10 }
     end
     if message.start_with? "R|McBoatFace" then puts message end
 end
