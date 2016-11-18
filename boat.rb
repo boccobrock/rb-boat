@@ -2,7 +2,7 @@ require 'socket'
 
 abort "Usage - ruby boat.rb host port" if ARGV.empty?
 client = TCPSocket.new ARGV[0], ARGV[1]
-shots = Array.new(100) { |x| {:x => x % 10 + 1, :y => x / 10 + 1} }.shuffle
+shots = Array.new(100) { |x| {:x => x % 10 + 1, :y => x / 10 + 1} }.shuffle.sort_by { |a| (a[:x] + a[:y]) % 2 }]}
 
 while message = client.gets
     if message[0] == "G" then client.puts "J|McBoatFace|AAAAA.BBBB#{"." * 10 * 8}CCC.DDD.EE" end
